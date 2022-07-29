@@ -59,7 +59,7 @@ cc:
 
 # Rebuild and run the container, keep stdout attached
 restart:
-	$(DOCKER_COMPOSE_VARS) docker-compose --force-recreate --build --abort-on-container-exit
+	$(DOCKER_COMPOSE_VARS) docker-compose up --force-recreate --build --abort-on-container-exit
 
 # Start the container, detach stdout
 up: # create-network
@@ -78,11 +78,11 @@ reset: down rebuild
 ash-app:
 	docker exec -it issue_tracker_api /bin/ash
 
-ash-node:
-	$(DOCKER_COMPOSE_VARS) docker-compose exec --user=node issue_tracker_api /bin/ash
+bash-postgres:
+	docker exec -it issue_tracker_psql psql -U istr issue_tracker
 
-node-root:
-	$(DOCKER_COMPOSE_VARS) docker-compose exec issue_tracker_api /bin/ash
+remove-volumes:
+	docker rm -f -v issue_tracker_psql
 
 # #################################################################################################################### #
 # The following section of this file contains only commands that should be accessible INSIDE Docker containers

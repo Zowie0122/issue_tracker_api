@@ -1,0 +1,25 @@
+objc[787]: Class AppleTypeCRetimerRestoreInfoHelper is implemented in both /usr/lib/libauthinstall.dylib (0x1ff68b458) and /Library/Apple/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/MobileDevice (0x105d644f8). One of the two will be used. Which one is undefined.
+
+objc[787]: Class AppleTypeCRetimerFirmwareAggregateRequestCreator is implemented in both /usr/lib/libauthinstall.dylib (0x1ff68b4a8) and /Library/Apple/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/MobileDevice (0x105d64548). One of the two will be used. Which one is undefined.
+objc[787]: Class AppleTypeCRetimerFirmwareRequestCreator is implemented in both /usr/lib/libauthinstall.dylib (0x1ff68b4f8) and /Library/Apple/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/MobileDevice (0x105d64598). One of the two will be used. Which one is undefined.
+objc[787]: Class ATCRTRestoreInfoFTABFile is implemented in both /usr/lib/libauthinstall.dylib (0x1ff68b548) and /Library/Apple/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/MobileDevice (0x105d645e8). One of the two will be used. Which one is undefined.
+objc[787]: Class AppleTypeCRetimerFirmwareCopier is implemented in both /usr/lib/libauthinstall.dylib (0x1ff68b598) and /Library/Apple/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/MobileDevice (0x105d64638). One of the two will be used. Which one is undefined.
+
+objc[787]: Class ATCRTRestoreInfoFTABSubfile is implemented in both /usr/lib/libauthinstall.dylib (0x1ff68b5e8) and /Library/Apple/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/MobileDevice (0x105d64688). One of the two will be used. Which one is undefined.
+
+cat: /proc/1/cgroup: No such file or directory
+
+the input device is not a TTY
+
+make: Entering directory `/Users/zowie/Desktop/projects/issue_tracker'
+echo "Welcome to the Issue Tracker Api make system running on Darwin!\n\
+The configuration variables were detected as follows:\n\
+  - HOST_UID=501\n\
+  - HOST_GID=20\n\
+  - DOCKER_BRIDGE_HOST_IP=\n\
+  - DOCKER_TEST=\n\
+  - BUILD_COMMIT=2114491299dcffbeafd8f89f8bd10fc90c72f3af\n\
+  - BUILD_DATE=2022-07-29 13:52:45+0900\n"
+ 
+make: Leaving directory `/Users/zowie/Desktop/projects/issue_tracker'
+ 
