@@ -1,8 +1,9 @@
-const express = require("express");
 require("dotenv").config();
-const app = express();
-const PORT = process.env.API_INTERNAL_HTTP_PORT;
+const express = require("express");
 const db = require("./db")
+
+const PORT = process.env.API_INTERNAL_HTTP_PORT;
+const app = express();
 
 app.get('/', (req, res, next) => {
   db.query('SELECT * FROM users', [], (err, result) => {
