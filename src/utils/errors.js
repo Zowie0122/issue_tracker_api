@@ -44,6 +44,15 @@ class ValidationError extends Error {
   }
 }
 
+class LogoutError extends Error {
+  constructor(message) {
+    super(message);
+    this.msg = "Logout Error";
+    this.status = 400;
+    this.code = 1005;
+  }
+}
+
 /* For all the server or database errors, only show the generic error message for safety, 
 frontend will use `code` property to define the specific error cause. */
 class ServerGenericError extends Error {
