@@ -1,27 +1,20 @@
-const ERRS = require("../utils/errors");
+const db = require("../../db");
 
 /**
  * get comments by an issue id
- * @param {*} req
- * @param {*} res
- * @param {*} next
+ * @param {number} issueId
  */
-const list = (req, res, next) => {};
+const list = (issueId) => {};
 
 /**
  * add a comment to an issue
- * @param {*} req
- * @param {*} res
- * @param {*} next
  */
-const create = (req, res, next) => {};
+const create = () => {};
 
 /**
- * update a comment
- * @param {*} req
- * @param {*} res
- * @param {*} next
+ * update a comment by comment id
+ * @param {number} commentId
  */
-const update = (req, res, next) => {};
+const update = (commentId) => {};
 
 module.exports = { list, create, update };

@@ -3,9 +3,9 @@ const router = Router();
 
 const { list, getByID, create, updateSelf } = require("../controllers/user");
 
-router.get("/", list);
-router.get("/:id", getByID);
-router.post("/:id", create);
-router.put("/:id", updateSelf);
+router.get("/", (req, res, next) => {});
+router.get("/:id", (req, res, next) => {});
+router.post("/:id", (req, res, next) => {});
+router.put("/:id", (req, res, next) => {});
 
 module.exports = router;

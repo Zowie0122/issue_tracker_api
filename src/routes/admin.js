@@ -3,6 +3,6 @@ const router = Router();
 
 const { update } = require("../controllers/user");
 
-router.put("/", update);
+router.put("/", (req, res, next) => {});
 
 module.exports = router;

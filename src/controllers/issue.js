@@ -1,44 +1,34 @@
-const ERRS = require("../utils/errors");
+const db = require("../../db");
 
 /**
  * list all the issues that a user received
- * @param {*} req
- * @param {*} res
- * @param {*} next
+ * @param {number} toId
  */
-const listReceived = (req, res, next) => {};
+const listReceived = (toId) => {};
 
 /**
  * list all the issues that a user issued
- * @param {*} req
- * @param {*} res
- * @param {*} next
+ * @param {number} fromId
  */
-const listIssued = (req, res, next) => {};
+const listIssued = (fromId) => {};
 
 /**
  * list all the issues by department id
- * @param {*} req
- * @param {*} res
- * @param {*} next
+ * @param {number} departmentId
  */
-const listByDepartment = (req, res, next) => {};
+const listByDepartment = (departmentId) => {};
 
 /**
  * list all the issues by company id
- * @param {*} req
- * @param {*} res
- * @param {*} next
+ * @param {number} companyId
  */
-const listByCompany = (req, res, next) => {};
+const listByCompany = (companyId) => {};
 
 /**
  * update a issue by id
- * @param {*} req
- * @param {*} res
- * @param {*} next
+ * @param {number} issueId
  */
-const update = (req, res, next) => {};
+const update = (issueId) => {};
 
 module.exports = {
   listReceived,

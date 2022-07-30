@@ -9,10 +9,10 @@ const {
   update,
 } = require("../controllers/issue");
 
-router.get("/received", listReceived);
-router.get("/issued", listIssued);
-router.get("/department", listByDepartment);
-router.get("/company", listByCompany);
-router.put("/:id", update);
+router.get("/received", (req, res, next) => {});
+router.get("/issued", (req, res, next) => {});
+router.get("/department", (req, res, next) => {});
+router.get("/company", (req, res, next) => {});
+router.put("/:id", (req, res, next) => {});
 
 module.exports = router;

@@ -22,7 +22,7 @@ VALUES (
         'John',
         'Doe',
         'johnd@invalid.com',
-        'secret',
+        '$2a$12$PqnCBqaGD.KAIYNJNj/SCuE.89fezhFl3wCqUqc5emsGUB8Wv8PSq',
         1,
         1,
         1
@@ -31,7 +31,7 @@ VALUES (
         'Mary',
         'Zhang',
         'maryz@invalid.com',
-        'secret',
+        '$2a$12$PqnCBqaGD.KAIYNJNj/SCuE.89fezhFl3wCqUqc5emsGUB8Wv8PSq',
         1,
         2,
         2
@@ -40,7 +40,7 @@ VALUES (
         'Susan',
         'Phong',
         'susanp@invalid.com',
-        'secret',
+        '$2a$12$PqnCBqaGD.KAIYNJNj/SCuE.89fezhFl3wCqUqc5emsGUB8Wv8PSq',
         1,
         2,
         2
@@ -49,7 +49,7 @@ VALUES (
         'Mike',
         'Green',
         'mikeg@invalid.com',
-        'secret',
+        '$2a$12$PqnCBqaGD.KAIYNJNj/SCuE.89fezhFl3wCqUqc5emsGUB8Wv8PSq',
         2,
         1,
         2
@@ -58,7 +58,7 @@ VALUES (
         'Nick',
         'Gray',
         'nickg@invalid.com',
-        'secret',
+        '$2a$12$PqnCBqaGD.KAIYNJNj/SCuE.89fezhFl3wCqUqc5emsGUB8Wv8PSq',
         2,
         2,
         2

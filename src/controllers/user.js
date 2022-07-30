@@ -1,49 +1,60 @@
-const ERRS = require("../utils/errors");
+const db = require("../../db");
 
 /**
- * list all the users
- * @param {*} req
- * @param {*} res
- * @param {*} next
+ * list all the users by companyId
+ * @params {number} companyId
  */
-const list = (req, res, next) => {};
+const list = (companyId) => {};
 
 /**
- * get user by id
- * @param {*} req
- * @param {*} res
- * @param {*} next
+ * get user by userId
+ * @param {number} userId
+ *
  */
-const getByID = (req, res, next) => {};
+const getById = (userId) => {
+  db.query(
+    `
+    SELECT
+        id, 
+        first_name, 
+        last_name, 
+        email, 
+        company_id, 
+        role_id, 
+        department_id, 
+        status
+    FROM users
+    LEFT JOIN companies ON companies.id = users.company_id
+    LEFT JOIN roles ON roles.id = users.role_id
+    LEFT JOIN departments ON departments.id = users.department_id
+    WHERE id = $1`,
+    [userId],
+    (err, result) => {
+      if (err) throw new Error(err);
+      return result;
+    }
+  );
+};
 
 /**
  * create an user, only by admin
- * @param {*} req
- * @param {*} res
- * @param {*} next
  */
-const create = (req, res, next) => {};
+const create = () => {};
 
 /**
  * update a user by user himself/herself
- * @param {*} req
- * @param {*} res
- * @param {*} next
  */
-const updateSelf = (req, res, next) => {};
+const updateSelf = () => {};
 
 /**
  * update a user by admin
- * @param {*} req
- * @param {*} res
- * @param {*} next
  */
- const update = (req, res, next) => {};
+const update = () => {};
 
 module.exports = {
   list,
-  getByID,
+  getById,
   create,
   updateSelf,
-  update
+  update,
 };

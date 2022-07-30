@@ -1,11 +1,9 @@
-const ERRS = require("../utils/errors");
+const db = require("../../db");
 
 /**
  * list all the departments by company id
- * @param {*} req
- * @param {*} res
- * @param {*} next
+ * @param {number} companyId
  */
-const list = (req, res, next) => {};
+const list = (companyId) => {};
 
 module.exports = { list };

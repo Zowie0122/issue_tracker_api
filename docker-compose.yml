@@ -12,6 +12,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PW}
     volumes: 
       - ./db/migrations/initial_schema.sql:/docker-entrypoint-initdb.d/initial_schema.sql
+      - ./db/migrations/session_schema.sql:/docker-entrypoint-initdb.d/session_schema.sql
       - ./db/seeds/initial_seeds.sql:/docker-entrypoint-initdb.d/initial_seeds.sql
   
   api:
