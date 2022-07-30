@@ -2,8 +2,9 @@ const { UnauthorizedError, ValidationError } = require("../utils/errors");
 const db = require("../../db");
 const session = require("express-session");
 
-const adminAuth = async (req, res, next) => {
+const userAuth = async (req, res, next) => {
   try {
+    console.log(req.session.user);
     if (!req.session?.user) throw new UnauthorizedError();
 
     const { id, email } = req.session.user;
@@ -12,22 +13,15 @@ const adminAuth = async (req, res, next) => {
     const data = await db.query(
       `
     SELECT
-        u.id            AS user_id,
-        u.email, 
-        u.role_id, 
-        r.name          AS role
-        FROM users u 
-        JOIN roles r ON u.role_id = r.id 
-        WHERE u.email = $1
+        id,
+        email
+        FROM users
+        WHERE email = $1
     `,
       [email]
     );
 
-    if (
-      data.rows.length === 0 ||
-      data.rows[0].user_id !== id ||
-      data.rows[0].role !== "Admin"
-    )
+    if (data.rows.length === 0 || data.rows[0].id !== id)
       throw new UnauthorizedError();
 
     next();
@@ -36,4 +30,4 @@ const adminAuth = async (req, res, next) => {
   }
 };
 
-module.exports = adminAuth;
+module.exports = userAuth;
