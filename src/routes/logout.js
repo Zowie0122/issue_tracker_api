@@ -8,11 +8,15 @@ router.get("/", async (req, res, next) => {
     if (req.session) {
       req.session.destroy((err) => {
         if (err) throw new LogoutError();
-        res.json({ msg: "Logout successful" });
+        res.status(200).json({ msg: "Logout successfully" });
       });
     }
   } catch (e) {
-    return res.status(e.status).send({ code: e.code, err: e.msg });
+    const genericError = new ServerGenericError(e);
+    return res.status(e.status ?? genericError.status).send({
+      code: genericError.code ?? ServerGenericError.code,
+      err: e.msg ?? genericError.msg,
+    });
   }
 });
 

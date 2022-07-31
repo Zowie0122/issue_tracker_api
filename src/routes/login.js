@@ -1,7 +1,12 @@
 const { Router } = require("express");
 const bcrypt = require("bcryptjs");
 const db = require("../../db");
-const { UnauthorizedError, ValidationError } = require("../utils/errors");
+const {
+  UnauthorizedError,
+  ValidationError,
+  ServerGenericError,
+} = require("../utils/errors");
+const { USER_STATUS } = require("../utils/constants");
 const router = Router();
 
 router.post("/", async (req, res, next) => {
@@ -12,31 +17,32 @@ router.post("/", async (req, res, next) => {
   }
 
   try {
-    const data = await db.query(
-      "SELECT id, email, password FROM users WHERE email = $1",
+    const users = await db.query(
+      "SELECT id, email, password, status FROM users WHERE email = $1",
       [email]
     );
 
-    if (data.rows.length === 0) {
-      // Not specify wether if an email is registered or not to the client for safety
+    // Not specify whether an email is registered or not to the client for info safety
+    if (users.length === 0 || users[0].status !== USER_STATUS.active)
       throw new UnauthorizedError();
-    }
 
-    const user = data.rows[0];
-
-    const matched = bcrypt.compareSync(password, user.password);
+    const matched = bcrypt.compareSync(password, users[0].password);
     if (!matched) {
       throw new UnauthorizedError();
     }
 
     req.session.user = {
-      id: user.id,
-      email: user.email,
+      id: users[0].id,
+      email: users[0].email,
     };
 
     return res.status(200).json({ user: req.session.user });
   } catch (e) {
-    return res.status(e.status).send({ code: e.code, err: e.msg });
+    const genericError = new ServerGenericError(e);
+    return res.status(e.status ?? genericError.status).send({
+      code: genericError.code ?? ServerGenericError.code,
+      err: e.msg ?? genericError.msg,
+    });
   }
 });
 

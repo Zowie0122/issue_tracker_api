@@ -1,5 +1,7 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE "users" (
-  "id" bigserial PRIMARY KEY,
+  "id" uuid DEFAULT uuid_generate_v4 () PRIMARY KEY,
   "first_name" varchar,
   "last_name" varchar,
   "email" varchar UNIQUE,
@@ -15,8 +17,8 @@ CREATE TABLE "issues" (
   "id" bigserial PRIMARY KEY,
   "title" varchar NOT NULL,
   "description" varchar,
-  "from" int NOT NULL,
-  "to" int NOT NULL,
+  "from" uuid NOT NULL,
+  "to" uuid NOT NULL,
   "due_at" timestamptz NOT NULL,
   "created_at" timestamptz DEFAULT (now()),
   "updated_at" timestamptz DEFAULT (now()),
@@ -26,8 +28,8 @@ CREATE TABLE "issues" (
 CREATE TABLE "comments" (
   "id" bigserial PRIMARY KEY,
   "contents" varchar NOT NULL,
-  "from" int NOT NULL,
-  "to" int,
+  "from" uuid NOT NULL,
+  "to" uuid,
   "created_at" timestamptz DEFAULT (now())
 );
 

@@ -7,27 +7,30 @@ const db = require("../../db");
 const list = (companyId) => {};
 
 /**
- * get user by userId
- * @param {number} userId
+ * get user by user's uuid
+ * @param {string} userId
  *
  */
 const getById = (userId) => {
-  db.query(
+  const data = db.query(
     `
     SELECT
-        id, 
-        first_name, 
-        last_name, 
-        email, 
-        company_id, 
-        role_id, 
-        department_id, 
-        status
-    FROM users
-    LEFT JOIN companies ON companies.id = users.company_id
-    LEFT JOIN roles ON roles.id = users.role_id
-    LEFT JOIN departments ON departments.id = users.department_id
-    WHERE id = $1`,
+        u.id,           AS user_id,
+        u.first_name, 
+        u.last_name, 
+        u.email, 
+        u.company_id, 
+        u.role_id, 
+        u.department_id, 
+        u.status        AS user_status,
+        c.name          AS company,
+        r.name          AS role,
+        d.name          AS department
+    FROM users u
+    LEFT JOIN companies c ON c.id = u.company_id
+    LEFT JOIN roles r ON r.id = u.role_id
+    LEFT JOIN departments d ON d.id = u.department_id
+    WHERE u.id = $1`,
     [userId],
     (err, result) => {
       if (err) throw new Error(err);
