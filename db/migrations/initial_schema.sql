@@ -51,12 +51,12 @@ ADD CONSTRAINT fk_role_user FOREIGN KEY ("role_id") REFERENCES "roles" ("id");
 ALTER TABLE "users"
 ADD CONSTRAINT fk_department_user FOREIGN KEY ("department_id") REFERENCES "departments" ("id");
 ALTER TABLE "issues"
-ADD CONSTRAINT fk_user_issue_from FOREIGN KEY ("from") REFERENCES "users" ("id");
+ADD CONSTRAINT fk_user_issue_issuer FOREIGN KEY ("issuer") REFERENCES "users" ("id");
 ALTER TABLE "issues"
-ADD CONSTRAINT fk_user_issue_to FOREIGN KEY ("to") REFERENCES "users" ("id");
+ADD CONSTRAINT fk_user_issue_receiver FOREIGN KEY ("receiver") REFERENCES "users" ("id");
 ALTER TABLE "comments"
-ADD CONSTRAINT fk_user_comment_from FOREIGN KEY ("from") REFERENCES "users" ("id");
+ADD CONSTRAINT fk_user_comment_issuer FOREIGN KEY ("issuer") REFERENCES "users" ("id");
 ALTER TABLE "comments"
-ADD CONSTRAINT fk_user_comment_to FOREIGN KEY ("to") REFERENCES "users" ("id");
+ADD CONSTRAINT fk_user_comment_receiver FOREIGN KEY ("receiver") REFERENCES "users" ("id");
 ALTER TABLE "departments"
 ADD CONSTRAINT fk_company_department FOREIGN KEY ("company_id") REFERENCES "companies" ("id");
