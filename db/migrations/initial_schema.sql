@@ -1,5 +1,4 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
 CREATE TABLE "users" (
   "id" uuid DEFAULT uuid_generate_v4 () PRIMARY KEY,
   "first_name" varchar,
@@ -12,59 +11,52 @@ CREATE TABLE "users" (
   "created_at" timestamptz DEFAULT (now()),
   "status" int DEFAULT 1
 );
-
 CREATE TABLE "issues" (
   "id" bigserial PRIMARY KEY,
   "title" varchar NOT NULL,
   "description" varchar,
-  "from" uuid NOT NULL,
-  "to" uuid NOT NULL,
+  "issuer" uuid NOT NULL,
+  "receiver" uuid NOT NULL,
   "due_at" timestamptz NOT NULL,
   "created_at" timestamptz DEFAULT (now()),
   "updated_at" timestamptz DEFAULT (now()),
-  "status" int DEFAULT 1
+  "status" int DEFAULT 0
 );
-
 CREATE TABLE "comments" (
   "id" bigserial PRIMARY KEY,
   "contents" varchar NOT NULL,
-  "from" uuid NOT NULL,
-  "to" uuid,
+  "issuer" uuid NOT NULL,
+  "receiver" uuid,
   "created_at" timestamptz DEFAULT (now())
 );
-
 CREATE TABLE "roles" (
   "id" bigserial PRIMARY KEY,
   "name" varchar NOT NULL
 );
-
 CREATE TABLE "departments" (
   "id" bigserial PRIMARY KEY,
   "company_id" int,
   "name" varchar NOT NULL
 );
-
 CREATE TABLE "companies" (
   "id" bigserial PRIMARY KEY,
   "name" varchar NOT NULL
 );
-
 COMMENT ON COLUMN "users"."status" IS 'active user 1, deleted user 0';
-
-COMMENT ON COLUMN "issues"."status" IS 'processing 1, resolved 0';
-
-ALTER TABLE "users" ADD CONSTRAINT fk_company_user FOREIGN KEY ("company_id") REFERENCES "companies" ("id");
-
-ALTER TABLE "users" ADD CONSTRAINT fk_role_user FOREIGN KEY ("role_id") REFERENCES "roles" ("id");
-
-ALTER TABLE "users" ADD CONSTRAINT fk_department_user FOREIGN KEY ("department_id") REFERENCES "departments" ("id");
-
-ALTER TABLE "issues" ADD CONSTRAINT fk_user_issue_from FOREIGN KEY ("from") REFERENCES "users" ("id");
-
-ALTER TABLE "issues" ADD CONSTRAINT fk_user_issue_to FOREIGN KEY ("to") REFERENCES "users" ("id");
-
-ALTER TABLE "comments" ADD CONSTRAINT fk_user_comment_from FOREIGN KEY ("from") REFERENCES "users" ("id");
-
-ALTER TABLE "comments" ADD CONSTRAINT fk_user_comment_to FOREIGN KEY ("to") REFERENCES "users" ("id");
-
-ALTER TABLE "departments" ADD CONSTRAINT fk_company_department FOREIGN KEY ("company_id") REFERENCES "companies" ("id");
+COMMENT ON COLUMN "issues"."status" IS 'unsolved, 0, resolved 1';
+ALTER TABLE "users"
+ADD CONSTRAINT fk_company_user FOREIGN KEY ("company_id") REFERENCES "companies" ("id");
+ALTER TABLE "users"
+ADD CONSTRAINT fk_role_user FOREIGN KEY ("role_id") REFERENCES "roles" ("id");
+ALTER TABLE "users"
+ADD CONSTRAINT fk_department_user FOREIGN KEY ("department_id") REFERENCES "departments" ("id");
+ALTER TABLE "issues"
+ADD CONSTRAINT fk_user_issue_from FOREIGN KEY ("from") REFERENCES "users" ("id");
+ALTER TABLE "issues"
+ADD CONSTRAINT fk_user_issue_to FOREIGN KEY ("to") REFERENCES "users" ("id");
+ALTER TABLE "comments"
+ADD CONSTRAINT fk_user_comment_from FOREIGN KEY ("from") REFERENCES "users" ("id");
+ALTER TABLE "comments"
+ADD CONSTRAINT fk_user_comment_to FOREIGN KEY ("to") REFERENCES "users" ("id");
+ALTER TABLE "departments"
+ADD CONSTRAINT fk_company_department FOREIGN KEY ("company_id") REFERENCES "companies" ("id");

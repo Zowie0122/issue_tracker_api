@@ -88,6 +88,7 @@ module.exports = {
   ForbiddenError,
   NotFoundError,
   ValidationError,
+  LogoutError,
   ServerGenericError,
   DBError,
   DBNotFoundError,
