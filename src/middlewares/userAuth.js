@@ -32,7 +32,7 @@ const userAuth = async (req, res, next) => {
 
     next();
   } catch (e) {
-    return res.status(e.status ?? 500).send({ code: e.code, err: e.msg });
+    next(e);
   }
 };
 

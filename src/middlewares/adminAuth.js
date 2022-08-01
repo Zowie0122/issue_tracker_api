@@ -34,7 +34,7 @@ const adminAuth = async (req, res, next) => {
 
     next();
   } catch (e) {
-    return res.status(e.status).send({ code: e.code, err: e.msg });
+    next(e);
   }
 };
 

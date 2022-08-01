@@ -1,12 +1,9 @@
 const { Router } = require("express");
 const bcrypt = require("bcryptjs");
 const db = require("../../db");
-const {
-  UnauthorizedError,
-  ValidationError,
-  ServerGenericError,
-} = require("../utils/errors");
+const { UnauthorizedError } = require("../utils/errors");
 const { USER_STATUS } = require("../utils/constants");
+
 const router = Router();
 
 router.post("/", async (req, res, next) => {

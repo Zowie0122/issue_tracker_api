@@ -40,10 +40,10 @@ app.use(sessionHandler);
 app.use("/login", [], login);
 app.use("/logout", [userAuth], logout);
 app.use("/users", [userAuth], user);
-app.use("/admins", [adminAuth], admin);
 app.use("/issues", [userAuth], issue);
 app.use("/comments", [userAuth], comment);
 app.use("/departments", [userAuth], department);
+app.use("/admins", [adminAuth], admin);
 
 app.use(errorHandler);
 

@@ -5,33 +5,17 @@ const db = require("../../db");
  * @param {string} id
  * @returns number || undefined
  */
-const getCompanyIdByUserId = async (id) => {
+const getCompanyIdByUserId = async (userId) => {
   const result = await db.query(
     `
-    SELECT company_id FROM users
+    SELECT company_id
+    FROM users
     WHERE id = $1
     `,
-    [id]
+    [userId]
   );
 
   return result[0]?.company_id;
 };
 
-/**
- * get company id by user email
- * @param {string} email
- * @returns number || undefined
- */
-const getCompanyIdByUserEmail = async (email) => {
-  const result = await db.query(
-    `
-   SELECT company_id FROM users
-   WHERE email = $1
-   `,
-    [email]
-  );
-
-  return result[0]?.company_id;
-};
-
-module.exports = { getCompanyIdByUserId, getCompanyIdByUserEmail };
+module.exports = { getCompanyIdByUserId };

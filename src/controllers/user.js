@@ -1,28 +1,27 @@
 const bcrypt = require("bcryptjs");
 const db = require("../../db");
-
-const { NotFoundError } = require("../utils/errors");
+const { DuplicationError, NotFoundError } = require("../utils/errors");
 
 /**
- * list all the users by user id
+ * list all the users of a company by company id
  * @params { number } companyId
  * @returns array
  */
-const list = async (userId) => {
-  const companyId = 1;
+const list = async (companyId) => {
+  // TODO: may not need the company, department or role name.
   const users = db.query(
     `
     SELECT u.id,
         u.first_name,
         u.last_name,
         u.email,
-        u.status            AS user_status,
         u.company_id,
         c.name              AS company,
         u.role_id,
         r.name AS role,
         u.department_id,
-        d.name              AS department
+        d.name              AS department,
+        u.status
     FROM users u
         LEFT JOIN companies c ON c.id = u.company_id
         LEFT JOIN roles r ON r.id = u.role_id
@@ -35,7 +34,7 @@ const list = async (userId) => {
 };
 
 /**
- * get user by user's uuid
+ * get an user by user's id
  * @param { string } userId
  * @returns object
  */
@@ -89,7 +88,7 @@ const getById = async (userId) => {
 };
 
 /**
- * create an user, only by admin
+ * create an new user, only by admin
  * @param {object} userInfo
  * @returns object || undefined
  */
@@ -103,9 +102,10 @@ const create = async (userInfo) => {
     roleId,
     departmentId,
   } = userInfo;
+
   hashedPassword = bcrypt.hashSync(password);
 
-  const user = await db.query(
+  const newUser = await db.query(
     `
     INSERT INTO users (
         first_name,
@@ -116,9 +116,9 @@ const create = async (userInfo) => {
         role_id,
         department_id
     )
-    VALUES ($1,$2,$3,$4,$5,$6,$7)
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
     ON CONFLICT DO NOTHING
-    RETURNING first_name, last_name, email, company_id, role_id, department_id`,
+    RETURNING id, first_name, last_name, email, company_id, role_id, department_id`,
     [
       firstName,
       lastName,
@@ -129,7 +129,11 @@ const create = async (userInfo) => {
       departmentId,
     ]
   );
-  return user[0];
+
+  if (newUser.length === 0) {
+    throw new DuplicationError();
+  }
+  return newUser[0];
 };
 
 /**
@@ -141,10 +145,12 @@ const update = async (userInfo) => {
   const { password, departmentId, roleId, status, id } = userInfo;
 
   let hashedPassword;
-  // use the default salt as 10
-  hashedPassword = bcrypt.hashSync(password);
+  if (password) {
+    // use the default salt as 10
+    hashedPassword = bcrypt.hashSync(password);
+  }
 
-  const user = await db.query(
+  const updatedUser = await db.query(
     `
       UPDATE users
       SET
@@ -153,11 +159,11 @@ const update = async (userInfo) => {
           role_id = COALESCE($3, role_id), 
           status = COALESCE($4, status)
       WHERE id = $5
-      RETURNING first_name, last_name, email, company_id, role_id, department_id`,
+      RETURNING id, first_name, last_name, email, company_id, role_id, department_id`,
     [hashedPassword, departmentId, roleId, status, id]
   );
 
-  return user[0];
+  return updatedUser[0];
 };
 
 /**

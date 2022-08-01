@@ -24,6 +24,7 @@ CREATE TABLE "issues" (
 );
 CREATE TABLE "comments" (
   "id" bigserial PRIMARY KEY,
+  "issue_id" int NOT NULL,
   "contents" varchar NOT NULL,
   "issuer" uuid NOT NULL,
   "receiver" uuid,
@@ -54,6 +55,8 @@ ALTER TABLE "issues"
 ADD CONSTRAINT fk_user_issue_issuer FOREIGN KEY ("issuer") REFERENCES "users" ("id");
 ALTER TABLE "issues"
 ADD CONSTRAINT fk_user_issue_receiver FOREIGN KEY ("receiver") REFERENCES "users" ("id");
+ALTER TABLE "comments"
+ADD CONSTRAINT fk_user_comment_issue FOREIGN KEY ("issue_id") REFERENCES "issues" ("id");
 ALTER TABLE "comments"
 ADD CONSTRAINT fk_user_comment_issuer FOREIGN KEY ("issuer") REFERENCES "users" ("id");
 ALTER TABLE "comments"

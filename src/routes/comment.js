@@ -1,10 +1,21 @@
 const { Router } = require("express");
+const { create } = require("../controllers/comment");
+
 const router = Router();
 
-const { list, create, update } = require("../controllers/comment");
-
-router.get("/", (req, res, next) => {});
-router.post("/:id", (req, res, next) => {});
-router.put("/:id", (req, res, next) => {});
+router.post("/", async (req, res, next) => {
+  try {
+    /* TODO: validate req.body
+     {
+      contents: required,
+      issueId: required
+     }
+    */
+    const issuer = req.session.user.id;
+    res.status(200).json(await create({ ...req.body, issuer }));
+  } catch (e) {
+    next(e);
+  }
+});
 
 module.exports = router;

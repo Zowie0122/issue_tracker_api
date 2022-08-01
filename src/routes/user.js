@@ -1,14 +1,14 @@
 const { Router } = require("express");
-const { UnauthorizedError } = require("../utils/errors");
+const {
+  BadRequestGenericError,
+  UnauthorizedError,
+} = require("../utils/errors");
 const { list, getById, updateSelf } = require("../controllers/user");
 const { getCompanyIdByUserId } = require("../controllers/company");
 
 const router = Router();
 
-router.get("/_test", (req, res, next) => {
-  res.send("Login as user");
-});
-
+// get all the users within the same company
 router.get("/", async (req, res, next) => {
   try {
     const companyId = await getCompanyIdByUserId(req.session.user.id);
@@ -18,24 +18,48 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+// get an user by user id
 router.get("/:id", async (req, res, next) => {
   try {
-    const userId = req.params.id;
-    res.status(200).json(await getById(userId));
+    const targetUser = await getById(req.params.id);
+
+    // if an user retrives the info of him/her self
+    if (req.session.user.id === req.params.id) {
+      res.status(200).json(targetUser);
+    }
+
+    const currentUserCompanyId = await getCompanyIdByUserId(
+      req.session.user.id
+    );
+
+    // if an user retrives another company's user
+    if (targetUser.company_id !== currentUserCompanyId) {
+      throw UnauthorizedError();
+    }
+
+    res.status(200).json(targetUser);
   } catch (e) {
     next(e);
   }
 });
 
+// an user update him/her self
 router.put("/:id", async (req, res, next) => {
   try {
-    // validate req body
-    const userId = req.session.user.id;
-    if (req.params.id !== userId) {
+    if (!req.params.id) throw BadRequestGenericError();
+    /* TODO: validate req body and params
+    {
+      firstName, lastName, password
+    }
+    */
+
+    if (req.params.id !== req.session.user.id) {
       throw new UnauthorizedError();
     }
 
-    res.status(200).json(await updateSelf({ ...req.body, id: userId }));
+    res
+      .status(200)
+      .json(await updateSelf({ ...req.body, id: req.session.user.id }));
   } catch (e) {
     next(e);
   }

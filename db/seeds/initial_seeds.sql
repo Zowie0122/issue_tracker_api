@@ -1,10 +1,12 @@
 INSERT INTO companies(name)
-VALUES ('TOM Corp'),
-    ('JERRY Corp');
+VALUES ('Tom and Jerry Finance'),
+    ('Rescue Rangers Tech');
 INSERT INTO departments(company_id, name)
-VALUES (1, 'IT'),
-    (1, 'Management'),
-    (2, 'Finance'),
+VALUES (1, 'Management'),
+    (1, 'Finance'),
+    (1, 'HR'),
+    (2, 'Management'),
+    (2, 'IT'),
     (2, 'HR');
 INSERT INTO roles(name)
 VALUES ('Admin'),
@@ -19,48 +21,56 @@ INSERT INTO users(
         department_id
     )
 VALUES (
-        'John',
-        'Doe',
-        'johnd@invalid.com',
+        'Tom',
+        'Cat',
+        'tom@tomandjerry.com',
         '$2a$12$PqnCBqaGD.KAIYNJNj/SCuE.89fezhFl3wCqUqc5emsGUB8Wv8PSq',
         1,
-        1,
-        1
+        2,
+        3
     ),
     (
-        'Mary',
-        'Zhang',
-        'maryz@invalid.com',
+        'Jerry',
+        'Mouse',
+        'jerry@tomandjerry.com',
         '$2a$12$PqnCBqaGD.KAIYNJNj/SCuE.89fezhFl3wCqUqc5emsGUB8Wv8PSq',
         1,
         2,
         2
     ),
     (
-        'Susan',
-        'Phong',
-        'susanp@invalid.com',
+        'Admin',
+        'Dog',
+        'admin@tomandjerry.com',
         '$2a$12$PqnCBqaGD.KAIYNJNj/SCuE.89fezhFl3wCqUqc5emsGUB8Wv8PSq',
         1,
+        1,
+        3
+    ),
+    (
+        'Chip',
+        'Munk',
+        'chip@rescuerangers.com',
+        '$2a$12$PqnCBqaGD.KAIYNJNj/SCuE.89fezhFl3wCqUqc5emsGUB8Wv8PSq',
+        2,
         2,
         2
     ),
     (
-        'Mike',
-        'Green',
-        'mikeg@invalid.com',
+        'Dale',
+        'Munk',
+        'dale@rescuerangers.com',
         '$2a$12$PqnCBqaGD.KAIYNJNj/SCuE.89fezhFl3wCqUqc5emsGUB8Wv8PSq',
         2,
-        1,
+        2,
         2
     ),
     (
-        'Nick',
-        'Gray',
-        'nickg@invalid.com',
+        'Admin',
+        'Butterfly',
+        'admin@rescuerangers.com',
         '$2a$12$PqnCBqaGD.KAIYNJNj/SCuE.89fezhFl3wCqUqc5emsGUB8Wv8PSq',
         2,
-        2,
-        2
+        1,
+        3
     );
-    
