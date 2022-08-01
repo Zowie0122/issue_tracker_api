@@ -38,11 +38,7 @@ router.post("/", async (req, res, next) => {
 
     return res.status(200).json({ user: req.session.user });
   } catch (e) {
-    const genericError = new ServerGenericError(e);
-    return res.status(e.status ?? genericError.status).send({
-      code: genericError.code ?? ServerGenericError.code,
-      err: e.msg ?? genericError.msg,
-    });
+    next(e);
   }
 });
 

@@ -18,9 +18,9 @@ const userAuth = async (req, res, next) => {
           email,
           status
           FROM users
-          WHERE email = $1
+          WHERE id = $1 AND email = $2
     `,
-      [email]
+      [id, email]
     );
 
     if (

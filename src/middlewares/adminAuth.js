@@ -19,9 +19,9 @@ const adminAuth = async (req, res, next) => {
         r.name          AS role
         FROM users u 
         JOIN roles r ON u.role_id = r.id 
-        WHERE u.email = $1
+        WHERE u.id = $1 AND u.email = $2
     `,
-      [email]
+      [id, email]
     );
 
     if (
