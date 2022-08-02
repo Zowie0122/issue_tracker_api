@@ -27,7 +27,7 @@ router.post("/users/add", async (req, res, next) => {
   }
 });
 
-// admin update an user
+// admin update a user
 router.put("/users/update/:id", async (req, res, next) => {
   try {
     const paramsError = uuidSchema.validate(req.params.id).error;
@@ -37,7 +37,7 @@ router.put("/users/update/:id", async (req, res, next) => {
     if (bodyError) throw new ValidationError(bodyError.details[0].message);
 
     // the user's email can't be changed since it is the identifier, and admin can't change user's first name or last name
-    // admin is able to change an user's role and department and reset an user's password
+    // admin is able to change a user's role and department and reset a user's password
     const adminCompanyId = await getCompanyIdByUserId(req.session.user.id);
     const userCompanyId = await getCompanyIdByUserId(req.params.id);
 

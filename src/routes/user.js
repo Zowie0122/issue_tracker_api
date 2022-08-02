@@ -19,12 +19,12 @@ router.get("/", async (req, res, next) => {
 
       const targetUser = await getById(req.query.id);
 
-      // if an user retrives the info of him/her self
+      // if a user retrives the info of him/her self
       if (req.session.user.id === req.query.id) {
         res.status(200).json(targetUser);
       }
 
-      // if an user retrives another company's user
+      // if a user retrives another company's user
       if (targetUser.company_id !== currentUserCompanyId) {
         throw new UnauthorizedError();
       }
@@ -37,7 +37,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// an user update him/her self
+// a user update him/her self
 router.put("/:id", async (req, res, next) => {
   try {
     const paramsError = uuidSchema.validate(req.params.id).error;

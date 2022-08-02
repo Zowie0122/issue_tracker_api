@@ -34,7 +34,7 @@ const list = async (companyId) => {
 };
 
 /**
- * get an user by user's id
+ * get a user by user's id
  * @param {string} userId
  * @returns object
  */
@@ -137,7 +137,7 @@ const create = async (userInfo) => {
 };
 
 /**
- * update an user by admin
+ * update a user by admin
  * @param {object} userInfo
  * @returns object || undefined
  */
@@ -167,7 +167,7 @@ const update = async (userInfo) => {
 };
 
 /**
- * update an user by user him/her self
+ * update a user by user him/her self
  * @param {object} userInfo
  * @returns object || undefined
  */
