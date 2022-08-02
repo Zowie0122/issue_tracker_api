@@ -1,8 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const bodyParser = require("body-parser");
-const session = require("express-session");
 
 // routes
 const login = require("./src/routes/login");
@@ -19,14 +17,14 @@ const adminAuth = require("./src/middlewares/adminAuth");
 const userAuth = require("./src/middlewares/userAuth");
 const errorHandler = require("./src/middlewares/errorHandler");
 
+const { NotFoundError } = require("./src/utils/errors");
+
 const PORT = process.env.API_INTERNAL_HTTP_PORT;
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 app.use(
   cors({
     origin: `http://localhost:${PORT}`,
@@ -44,6 +42,11 @@ app.use("/issues", [userAuth], issue);
 app.use("/comments", [userAuth], comment);
 app.use("/departments", [userAuth], department);
 app.use("/admins", [adminAuth], admin);
+
+// For the requests that no routes matched
+app.all("*", (req, res, next) => {
+  throw new NotFoundError();
+});
 
 app.use(errorHandler);
 
