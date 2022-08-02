@@ -7,6 +7,7 @@ const errorHandler = (err, req, res, next) => {
     res.status(err.status ?? genericError.status).json({
       code: err.code ?? genericError.code,
       err: err.msg ?? genericError.msg,
+      details: err.message ?? null,
     });
   }
 };
