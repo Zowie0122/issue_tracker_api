@@ -1,6 +1,6 @@
-version: '3.8'
+version: "3.8"
 
-services:    
+services:
   db:
     container_name: issue_tracker_psql
     image: postgres:latest
@@ -10,11 +10,11 @@ services:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PW}
-    volumes: 
+    volumes:
       - ./db/migrations/initial_schema.sql:/docker-entrypoint-initdb.d/initial_schema.sql
       - ./db/migrations/session_schema.sql:/docker-entrypoint-initdb.d/session_schema.sql
       - ./db/seeds/initial_seeds.sql:/docker-entrypoint-initdb.d/initial_seeds.sql
-  
+
   api:
     container_name: issue_tracker_api
     build:
@@ -26,11 +26,6 @@ services:
     volumes:
       - .:/app
     environment:
-      HOST_OS: ${HOST_OS}
-      HOST_UID: ${HOST_UID}
-      HOST_GID: ${HOST_GID}
-      BUILD_COMMIT: ${BUILD_COMMIT}
-      BUILD_DATE: ${BUILD_DATE}
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_INTERNAL_HTTP_PORT}
       DB_NAME: ${DB_NAME}
