@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const { PW_REGEX } = require("../utils/constants");
 
 const loginSchema = Joi.object({
   email: Joi.string()
@@ -7,12 +8,7 @@ const loginSchema = Joi.object({
       tlds: { allow: ["com", "net", "jp"] },
     })
     .required(),
-  password: Joi.string()
-    .pattern(
-      // Minimum eight characters, at least one letter, one number and one special character
-      /^(?=.*[A-Za-z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{8,}/
-    )
-    .required(),
+  password: Joi.string().pattern(PW_REGEX).required(),
 });
 
 module.exports = loginSchema;

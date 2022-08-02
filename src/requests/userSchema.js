@@ -1,7 +1,5 @@
 const Joi = require("joi");
-
-// Minimum eight characters, at least one letter, one number and one special character
-const PW_REGEX = /^(?=.*[A-Za-z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{8,}/;
+const { PW_REGEX } = require("../utils/constants");
 
 const uuidSchema = Joi.string()
   .guid({

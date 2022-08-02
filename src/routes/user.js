@@ -13,7 +13,6 @@ router.get("/", async (req, res, next) => {
       req.session.user.id
     );
 
-    console.log(req.query.id);
     if (req.query.id) {
       const { error } = uuidSchema.validate(req.query.id);
       if (error) throw new ValidationError(error.details[0].message);

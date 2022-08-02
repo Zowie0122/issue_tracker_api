@@ -4,7 +4,7 @@ const { DuplicationError, NotFoundError } = require("../utils/errors");
 
 /**
  * list all the users of a company by company id
- * @params { number } companyId
+ * @params {number} companyId
  * @returns array
  */
 const list = async (companyId) => {
@@ -35,7 +35,7 @@ const list = async (companyId) => {
 
 /**
  * get an user by user's id
- * @param { string } userId
+ * @param {string} userId
  * @returns object
  */
 const getById = async (userId) => {

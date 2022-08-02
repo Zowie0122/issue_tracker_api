@@ -4,10 +4,8 @@ const { USER_STATUS } = require("../utils/constants");
 
 const userAuth = async (req, res, next) => {
   try {
-    console.log(req.session.user);
     if (!req.session?.user) throw new UnauthorizedError();
 
-    // switch to joi validation
     const { id, email } = req.session.user;
     if (!id || !email) throw new UnauthorizedError();
 

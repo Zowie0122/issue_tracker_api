@@ -10,4 +10,7 @@ const USER_STATUS = {
 
 const SESSION_EXPIRE_HOUR = 3600000;
 
-module.exports = { PERMISSIONS, USER_STATUS, SESSION_EXPIRE_HOUR };
+// Minimum eight characters, at least one letter, one number and one special character
+const PW_REGEX = /^(?=.*[A-Za-z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{8,}/;
+
+module.exports = { PERMISSIONS, USER_STATUS, SESSION_EXPIRE_HOUR, PW_REGEX };
