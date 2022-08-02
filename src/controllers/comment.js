@@ -32,7 +32,7 @@ const create = async (commentInfo) => {
         contents,
         issue_id,
         issuer,
-        receiver,
+        receiver
     )
     VALUES ($1,$2,$3,$4)
     RETURNING *`,

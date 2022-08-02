@@ -14,7 +14,7 @@ the input device is not a TTY
 make: *** No rule to make target `all'.  Stop.
 
 
-# Make data base, printed on Mon Aug  1 08:28:26 2022
+# Make data base, printed on Tue Aug  2 09:31:33 2022
 
 # Variables
 
@@ -39,7 +39,7 @@ CURDIR := /Users/zowie/Desktop/projects/issue_tracker
 # makefile
 SHELL = /bin/sh
 # makefile (from `Makefile', line 24)
-BUILD_DATE := 2022-08-01 08:28:26+0900
+BUILD_DATE := 2022-08-02 09:31:33+0900
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
 # makefile (from `.env', line 14)
@@ -55,7 +55,7 @@ __CFBundleIdentifier = com.microsoft.VSCode
 # environment
 INFOPATH = /opt/homebrew/share/info:
 # makefile (from `Makefile', line 23)
-BUILD_COMMIT := 2288a638bcbcfc02c7a1feb6a2258a7d0737c2cc-dirty
+BUILD_COMMIT := ba7c620a36e82d2986dee47db6a383e7c9bcb135-dirty
 # environment
 VSCODE_CWD = /
 # environment
@@ -63,13 +63,13 @@ PATH = /opt/homebrew/opt/node@16/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/l
 # makefile (from `Makefile', line 12)
 DOCKER_ON_PROCESS := 
 # makefile (from `Makefile', line 25)
-DOCKER_COMPOSE_VARS := HOST_OS="Darwin" HOST_UID=501 HOST_GID=20 DOCKER_BRIDGE_HOST_IP="" BUILD_COMMIT="2288a638bcbcfc02c7a1feb6a2258a7d0737c2cc-dirty" BUILD_DATE="2022-08-01 08:28:26+0900"
+DOCKER_COMPOSE_VARS := HOST_OS="Darwin" HOST_UID=501 HOST_GID=20 DOCKER_BRIDGE_HOST_IP="" BUILD_COMMIT="ba7c620a36e82d2986dee47db6a383e7c9bcb135-dirty" BUILD_DATE="2022-08-02 09:31:33+0900"
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # default
 .FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.klcE40jAqF/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.g70yh62tPc/Listeners
 # automatic
 %F = $(notdir $%)
 # environment
@@ -80,7 +80,6 @@ HOMEBREW_CELLAR = /opt/homebrew/Cellar
 DB_PW = secret
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = undefined
- 
 # environment
 MANPATH = /opt/homebrew/share/man::
 # environment
@@ -159,6 +158,7 @@ COMMAND_MODE = unix2003
 MAKEFILES := 
 # automatic
 <F = $(notdir $<)
+ 
 # makefile (from `Makefile', line 4)
 PROJECT_NAME := Issue Tracker Api
 # makefile (from `.env', line 9)
@@ -180,7 +180,7 @@ MAKELEVEL := 0
 # environment
 LANG = C
 # environment
-VSCODE_PID = 585
+VSCODE_PID = 527
 # variable set hash-table stats:
 # Load=81/1024=8%, Rehash=0, Collisions=2/141=1%
 
@@ -190,7 +190,7 @@ VSCODE_PID = 585
 
 # Directories
 
-# . (device 16777230, inode 4778604): 17 files, no impossibilities.
+# . (device 16777234, inode 4778604): 17 files, no impossibilities.
 
 # 17 files, no impossibilities in 1 directories.
 
@@ -212,7 +212,6 @@ assert-param-%:
 all:
 #  Command-line target.
 #  Implicit rule search has been done.
- 
 #  File does not exist.
 #  File has not been updated.
 # variable set hash-table stats:
@@ -240,7 +239,7 @@ up:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-29 20:34:31
+#  Last modified 2022-08-01 20:06:56
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -364,6 +363,6 @@ down:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4082 / max = 4082 / min = 4082 / avg = 4082
 
-# Finished Make data base on Mon Aug  1 08:28:26 2022
+# Finished Make data base on Tue Aug  2 09:31:33 2022
 
  

@@ -1,79 +1,17 @@
 const db = require("../../db");
 
 /**
- * get an issue by id with comments
- * @param {number} id
- * @returns object
- */
-const getById = async (id) => {
-  const issue = await db.query(
-    `
-    SELECT *
-    FROM issues
-    WHERE id = $1
-   `,
-    [id]
-  );
-
-  const comments = await db.query(
-    `
-    SELECT *
-    FROM comments
-    WHERE issue_id = $1
-   `,
-    [id]
-  );
-
-  return {
-    issue: issue[0],
-    comments,
-  };
-};
-
-/**
- * list all the issues that an user received
- * @param {number} receiverId
+ * get issue with comments by queries
+ * @param {object} queries
  * @returns array
  */
-const listReceived = async (receiverId) => {
-  const issues = await db.query(
-    `
-   SELECT *
-   FROM issues
-   WHERE receiver = $1
-  `,
-    [receiverId]
-  );
+const list = async (queries) => {
+  const { id, issuer, receiver, companyId } = queries;
 
-  return issues;
-};
-
-/**
- * list all the issues that an user issued
- * @param {number} issuerId
- * @returns array
- */
-const listIssued = async (issuerId) => {
-  const issues = await db.query(
-    `
-   SELECT *
-   FROM issues
-   WHERE issuer = $1
-  `,
-    [issuerId]
-  );
-
-  return issues;
-};
-
-/**
- * list all the issues by department id
- * @param {number} departmentId
- */
-const listByDepartment = async (departmentId) => {
   const issues = await db.query(
     `
     SELECT
+        i.id,
         i.title,
         i.issuer,
         i.receiver,
@@ -81,14 +19,32 @@ const listByDepartment = async (departmentId) => {
         i.updated_at,
         i.created_at,
         i.status
-    FROM users u
-    RIGHT JOIN issues i ON i.issuer = u.id OR i.receiver = u.id
-    WHERE u.department_id = $1
-  `,
-    [departmentId]
+    FROM issues i
+    INNER JOIN users u ON u.id = i.issuer
+    WHERE i.id = COALESCE($1, i.id) AND i.issuer = COALESCE($2, i.issuer) AND i.receiver = COALESCE($3, i.receiver) AND u.company_id = $4
+    `,
+    [id, issuer, receiver, companyId]
   );
 
-  return issues;
+  const result = [];
+
+  for (const issue of issues) {
+    comments = await db.query(
+      `
+      SELECT *
+      FROM comments
+      WHERE issue_id = $1
+     `,
+      [issue.id]
+    );
+
+    result.push({
+      issue,
+      comments,
+    });
+  }
+
+  return result;
 };
 
 /**
@@ -142,10 +98,7 @@ const update = async (issueInfo) => {
 };
 
 module.exports = {
-  getById,
-  listReceived,
-  listIssued,
-  listByDepartment,
+  list,
   create,
   update,
 };

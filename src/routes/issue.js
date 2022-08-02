@@ -1,58 +1,16 @@
 const { Router } = require("express");
-const {
-  BadRequestGenericError,
-  UnauthorizedError,
-} = require("../utils/errors");
-const { getDepartmentIdByUserId } = require("../controllers/department");
+const { BadRequestGenericError } = require("../utils/errors");
+const { getCompanyIdByUserId } = require("../controllers/company");
 
 const router = Router();
 
-const {
-  getById,
-  listReceived,
-  listIssued,
-  listByDepartment,
-  create,
-  update,
-} = require("../controllers/issue");
-
-// TODO: would it be useful to list all the issues that either he/she issued or received ?
+const { list, create, update } = require("../controllers/issue");
 
 // get an issue by id
-router.get("/:id", async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
-    const { id } = req.params.id;
-    res.status(200).json(await getById(id));
-  } catch (e) {
-    next(e);
-  }
-});
-
-// get issues that the current user received
-router.get("/received", async (req, res, next) => {
-  try {
-    const receiver = req.session.user.id;
-    res.status(200).json(await listReceived(receiver));
-  } catch (e) {
-    next(e);
-  }
-});
-
-// get issues that the current user issued
-router.get("/issued", async (req, res, next) => {
-  try {
-    const issuer = req.session.user.id;
-    res.status(200).json(await listIssued(issuer));
-  } catch (e) {
-    next(e);
-  }
-});
-
-// get the issues of the current user's department
-router.get("/department", async (req, res, next) => {
-  try {
-    const userDepartmentId = await getDepartmentIdByUserId(req.session.user.id);
-    res.status(200).json(await listByDepartment(userDepartmentId));
+    const companyId = await getCompanyIdByUserId(req.session.user.id);
+    res.status(200).json(await list({ ...req.query, companyId }));
   } catch (e) {
     next(e);
   }
@@ -72,15 +30,16 @@ router.post("/", async (req, res, next) => {
 // user update an issue that he/she issued
 router.put("/:id", async (req, res, next) => {
   try {
-    // only issuer could update the issue
-    if (req.body.issuer !== req.session.user.id) {
-      throw new UnauthorizedError();
-    }
-
     if (!req.params.id) throw BadRequestGenericError();
     // TODO: validate the req.body
 
-    res.status(200).json(await update({ ...req.body, id: req.params.id }));
+    res.status(200).json(
+      await update({
+        ...req.body,
+        id: req.params.id,
+        issuer: req.session.user.id,
+      })
+    );
   } catch (e) {
     next(e);
   }
