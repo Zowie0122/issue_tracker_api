@@ -62,8 +62,8 @@ class DuplicationError extends Error {
   }
 }
 
-/* For all the server or database errors, only show the generic error message to client for safety, 
-client will use `code` property to define the specific error cause. */
+/* For all the server or database errors, only show the generic error message to client for info safety, 
+client side will use `code` property to define a specific error cause. */
 class ServerGenericError extends Error {
   constructor(message) {
     super(message);

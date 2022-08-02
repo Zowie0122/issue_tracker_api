@@ -1,12 +1,13 @@
 const db = require("../../db");
 
 /**
- * get issue with comments by queries
+ * get issue(s) with comments by queries
  * @param {object} queries
  * @returns array
  */
 const list = async (queries) => {
-  const { id, issuer, receiver, companyId } = queries;
+  // support pagination
+  const { id, issuer, receiver, companyId, limit, page } = queries;
 
   const issues = await db.query(
     `
@@ -22,33 +23,29 @@ const list = async (queries) => {
     FROM issues i
     INNER JOIN users u ON u.id = i.issuer
     WHERE i.id = COALESCE($1, i.id) AND i.issuer = COALESCE($2, i.issuer) AND i.receiver = COALESCE($3, i.receiver) AND u.company_id = $4
+    ORDER BY i.updated_at DESC
+    LIMIT $5 OFFSET $6
     `,
-    [id, issuer, receiver, companyId]
+    [id, issuer, receiver, companyId, limit, (page - 1) * limit]
   );
 
-  const result = [];
-
   for (const issue of issues) {
-    comments = await db.query(
+    issue.comments = await db.query(
       `
       SELECT *
       FROM comments
       WHERE issue_id = $1
+      ORDER BY created_at DESC
      `,
       [issue.id]
     );
-
-    result.push({
-      issue,
-      comments,
-    });
   }
 
-  return result;
+  return issues;
 };
 
 /**
- *
+ * add an issue
  * @param {object} issueInfo
  * @returns object || undefined
  */
@@ -72,7 +69,7 @@ const create = async (issueInfo) => {
 };
 
 /**
- * update a issue by id
+ * update an issue by id
  * @param {number} issueId
  * @returns object || undefined
  */

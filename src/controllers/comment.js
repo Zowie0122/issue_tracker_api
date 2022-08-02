@@ -11,6 +11,7 @@ const list = async (issueId) => {
    SELECT *
    FROM comments
    WHERE issue_id = $1
+   ORDER BY created_at DESC
   `,
     [issueId]
   );

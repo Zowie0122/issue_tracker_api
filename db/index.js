@@ -1,6 +1,7 @@
-require("dotenv").config();
 const { Pool } = require("pg");
 const { DBError } = require("../src/utils/errors");
+
+require("dotenv").config();
 
 const DB_CONFIG = {
   user: process.env.DB_USER,

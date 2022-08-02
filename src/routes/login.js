@@ -1,19 +1,18 @@
 const { Router } = require("express");
 const bcrypt = require("bcryptjs");
 const db = require("../../db");
-const { UnauthorizedError } = require("../utils/errors");
 const { USER_STATUS } = require("../utils/constants");
+const loginSchema = require("../requests/loginSchema");
+const { ValidationError, UnauthorizedError } = require("../utils/errors");
 
 const router = Router();
 
 router.post("/", async (req, res, next) => {
-  const { email, password } = req.body;
-  // TODO: switch to joi validation
-  if (!email || !password) {
-    throw new UnauthorizedError();
-  }
-
   try {
+    const { error } = loginSchema.validate(req.body);
+    if (error) throw new ValidationError(error.details[0].message);
+
+    const { email, password } = req.body;
     const users = await db.query(
       "SELECT id, email, password, status FROM users WHERE email = $1",
       [email]

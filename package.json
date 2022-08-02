@@ -1,9 +1,9 @@
 {
-  "name": "issue_tracker_backend",
+  "name": "issue_tracker_api",
   "version": "1.0.0",
   "description": "An issue tracker app for any team",
-  "main": "index.js",
-  "author": "Zowie",
+  "main": "app.js",
+  "author": "Zowie Min",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -13,6 +13,7 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-session": "^1.17.3",
+    "joi": "^17.6.0",
     "nodemon": "^2.0.19",
     "pg": "^8.7.3"
   },

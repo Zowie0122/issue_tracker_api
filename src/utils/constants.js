@@ -8,4 +8,6 @@ const USER_STATUS = {
   inactive: 0,
 };
 
-module.exports = { PERMISSIONS, USER_STATUS };
+const SESSION_EXPIRE_HOUR = 3600000;
+
+module.exports = { PERMISSIONS, USER_STATUS, SESSION_EXPIRE_HOUR };

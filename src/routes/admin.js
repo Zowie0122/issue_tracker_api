@@ -1,8 +1,11 @@
 const { Router } = require("express");
+const { ValidationError, UnauthorizedError } = require("../utils/errors");
 const {
-  BadRequestGenericError,
-  UnauthorizedError,
-} = require("../utils/errors");
+  newUserSchema,
+  updateUserSchema,
+  uuidSchema,
+} = require("../requests/userSchema");
+const newDepartmentSchema = require("../requests/departmentSchema");
 const { create, update } = require("../controllers/user");
 const { getCompanyIdByUserId } = require("../controllers/company");
 
@@ -13,16 +16,8 @@ const router = Router();
 // admin add a new user
 router.post("/users/add", async (req, res, next) => {
   try {
-    /* TODO: validate req.body, ex
-      {
-          "firstName": "Dale",
-          "lastName": "Chunk",
-          "email": "dale@jerry.com",
-          "password": "pAssword1@",
-          "roleId": 2,
-          "departmentId": 2
-      }
-    */
+    const { error } = newUserSchema.validate(req.params.id);
+    if (error) throw new ValidationError(error.details[0].message);
 
     const companyId = await getCompanyIdByUserId(req.session.user.id);
     res.status(200).json(await create({ ...req.body, companyId }));
@@ -34,17 +29,14 @@ router.post("/users/add", async (req, res, next) => {
 // admin update an user
 router.put("/users/update/:id", async (req, res, next) => {
   try {
-    if (!req.params.id) throw BadRequestGenericError();
-    /* TODO: validate req.body and id, ex
-      {
-          "email": "dale@jerry.com",
-          "password": "pAssword1@",
-          "roleId": 2,
-          "departmentId": 2
-      }
-    */
+    const paramsError = uuidSchema.validate(req.params.id).error;
+    if (paramsError) throw new ValidationError(paramsError.details[0].message);
+
+    const bodyError = updateUserSchema.validate(req.body).error;
+    if (bodyError) throw new ValidationError(bodyError.details[0].message);
+
     // the user's email can't be changed since it is the identifier, and admin can't change user's first name or last name
-    // admin is able to change an user's role and department and resetting a user's password
+    // admin is able to change an user's role and department and reset an user's password
     const adminCompanyId = await getCompanyIdByUserId(req.session.user.id);
     const userCompanyId = await getCompanyIdByUserId(req.params.id);
 
@@ -58,13 +50,10 @@ router.put("/users/update/:id", async (req, res, next) => {
 });
 
 // admin add a new department
-router.put("/department", async (req, res, next) => {
+router.post("/department", async (req, res, next) => {
   try {
-    /* TODO: validate req.body and id, ex
-      {
-          "name": "new department",
-      }
-    */
+    const { error } = newDepartmentSchema.validate(req.body);
+    if (error) throw new ValidationError(error.details[0].message);
 
     const adminCompanyId = await getCompanyIdByUserId(req.session.user.id);
 

@@ -1,8 +1,7 @@
 const session = require("express-session");
-require("dotenv").config();
+const { SESSION_EXPIRE_HOUR } = require("../utils/constants");
 
-// TODO: remove to constants.js
-const EXPIRE_HOUR = 3600000;
+require("dotenv").config();
 
 const sessionHandler = session({
   secret: process.env.SESSION_SECRET,
@@ -11,7 +10,7 @@ const sessionHandler = session({
   resave: false,
   proxy: true,
   cookie: {
-    expires: new Date(Date.now() + EXPIRE_HOUR),
+    expires: new Date(Date.now() + SESSION_EXPIRE_HOUR),
     httpOnly: true,
   },
 });
