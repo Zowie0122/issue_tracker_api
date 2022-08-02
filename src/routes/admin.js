@@ -8,6 +8,7 @@ const {
 const newDepartmentSchema = require("../requests/departmentSchema");
 const { create, update } = require("../controllers/user");
 const { getCompanyIdByUserId } = require("../controllers/company");
+const { createDepartment } = require("../controllers/department");
 
 const router = Router();
 
@@ -50,7 +51,7 @@ router.put("/users/update/:id", async (req, res, next) => {
 });
 
 // admin add a new department
-router.post("/department", async (req, res, next) => {
+router.post("/departments", async (req, res, next) => {
   try {
     const { error } = newDepartmentSchema.validate(req.body);
     if (error) throw new ValidationError(error.details[0].message);
@@ -59,7 +60,7 @@ router.post("/department", async (req, res, next) => {
 
     res
       .status(200)
-      .json(await update({ ...req.body, companyId: adminCompanyId }));
+      .json(await createDepartment({ ...req.body, companyId: adminCompanyId }));
   } catch (e) {
     next(e);
   }

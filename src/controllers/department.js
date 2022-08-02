@@ -41,7 +41,7 @@ const getDepartmentIdByUserId = async (userId) => {
  * @param {object} departmentInfo
  * @returns object
  */
-const create = async (departmentInfo) => {
+const createDepartment = async (departmentInfo) => {
   const { name, companyId } = departmentInfo;
 
   const newDepartment = await db.query(
@@ -57,4 +57,4 @@ const create = async (departmentInfo) => {
   return newDepartment[0];
 };
 
-module.exports = { list, getDepartmentIdByUserId, create };
+module.exports = { list, getDepartmentIdByUserId, createDepartment };
