@@ -14,7 +14,7 @@ router.post("/", async (req, res, next) => {
 
     const { email, password } = req.body;
     const users = await db.query(
-      "SELECT id, email, password, status FROM users WHERE email = $1",
+      "SELECT id, first_name, last_name, email, password, role_id, status FROM users WHERE email = $1",
       [email]
     );
 
@@ -32,7 +32,12 @@ router.post("/", async (req, res, next) => {
       email: users[0].email,
     };
 
-    return res.status(200).json({ user: req.session.user });
+    return res.status(200).json({
+      auth: {
+        user_id: users[0].id,
+        role_id: users[0].role_id,
+      },
+    });
   } catch (e) {
     next(e);
   }

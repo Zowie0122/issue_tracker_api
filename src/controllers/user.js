@@ -45,7 +45,7 @@ const getById = async (userId) => {
         u.first_name,
         u.last_name,
         u.email,
-        u.status            AS user_status,
+        u.status,
         u.company_id,
         c.name              AS company,
         u.role_id,
@@ -82,8 +82,8 @@ const getById = async (userId) => {
 
   return {
     ...users[0],
-    issued: issuedCount[0].count,
-    received: receivedCount[0].count,
+    issued: Number(issuedCount[0].count),
+    received: Number(receivedCount[0].count),
   };
 };
 
