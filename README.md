@@ -46,19 +46,19 @@ make restart
 You can access the API on your host machine via post `8080`. Check if the app is up and running by
 
 ```
-curl -X GET http://localhost:8080/
+curl -X GET http://localhost:8080/api/healthcheck
 ```
 
 4. You can log in as a non-admin user by credentials
 
 ```
-curl -d "email=tom@tomandjerry.com&password=pAssword1@" -X POST http://localhost:8080/login
+curl -d "email=tom@tomandjerry.com&password=pAssword1@" -X POST http://localhost:8080/api/login
 ```
 
 Or log in as an admin
 
 ```
-curl -d "email=admin@&password=pAssword1@" -X POST http://localhost:8080/login
+curl -d "email=admin@&password=pAssword1@" -X POST http://localhost:8080/api/login
 ```
 
 NB: As initial seeds, I put two companies in the database, you can check out [here](./db/seeds/initial_seeds.sql)
