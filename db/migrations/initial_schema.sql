@@ -37,7 +37,8 @@ CREATE TABLE "roles" (
 CREATE TABLE "departments" (
   "id" bigserial PRIMARY KEY,
   "company_id" int,
-  "name" varchar NOT NULL
+  "name" varchar NOT NULL,
+  UNIQUE (company_id, name)
 );
 CREATE TABLE "companies" (
   "id" bigserial PRIMARY KEY,

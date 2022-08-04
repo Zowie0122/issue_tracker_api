@@ -8,25 +8,20 @@ const { DuplicationError, NotFoundError } = require("../utils/errors");
  * @returns array
  */
 const list = async (companyId) => {
-  // TODO: may not need the company, department or role name.
   const users = db.query(
     `
-    SELECT u.id,
-        u.first_name,
-        u.last_name,
-        u.email,
-        u.company_id,
-        c.name              AS company,
-        u.role_id,
-        r.name AS role,
-        u.department_id,
-        d.name              AS department,
-        u.status
+    SELECT 
+        id,
+        first_name,
+        last_name,
+        email,
+        company_id,
+        role_id,
+        department_id,
+        created_at,
+        status
     FROM users u
-        LEFT JOIN companies c ON c.id = u.company_id
-        LEFT JOIN roles r ON r.id = u.role_id
-        LEFT JOIN departments d ON d.id = u.department_id
-    WHERE u.company_id = $1`,
+    WHERE company_id = $1`,
     [companyId]
   );
 
@@ -36,27 +31,15 @@ const list = async (companyId) => {
 /**
  * get a user by user's id
  * @param {string} userId
+ * @param {boolean} hidePW
  * @returns object
  */
-const getById = async (userId) => {
+const getById = async (userId, hidePW = true) => {
   const users = await db.query(
     `
-    SELECT u.id,
-        u.first_name,
-        u.last_name,
-        u.email,
-        u.status,
-        u.company_id,
-        c.name              AS company,
-        u.role_id,
-        r.name AS role,
-        u.department_id,
-        d.name              AS department
-    FROM users u
-        LEFT JOIN companies c ON c.id = u.company_id
-        LEFT JOIN roles r ON r.id = u.role_id
-        LEFT JOIN departments d ON d.id = u.department_id
-    WHERE u.id = $1`,
+    SELECT *
+    FROM users
+    WHERE id = $1`,
     [userId]
   );
 
@@ -64,27 +47,30 @@ const getById = async (userId) => {
     throw new NotFoundError();
   }
 
-  const issuedCount = await db.query(
+  if (hidePW) delete users[0].password
+
+  return users[0];
+};
+
+/**
+ * get a user by user's email
+ * @param {string} email
+ * @returns object
+ */
+const getByEmail = async (email) => {
+  const users = await db.query(
     `
-    SELECT COUNT(*)  AS count
-    FROM issues
-    WHERE issues.issuer = $1`,
-    [userId]
+    SELECT *
+    FROM users
+    WHERE email = $1`,
+    [email]
   );
 
-  const receivedCount = await db.query(
-    `
-    SELECT COUNT(*)  AS count
-    FROM issues
-    WHERE issues.receiver = $1`,
-    [userId]
-  );
+  if (users.length === 0) {
+    throw new NotFoundError();
+  }
 
-  return {
-    ...users[0],
-    issued: Number(issuedCount[0].count),
-    received: Number(receivedCount[0].count),
-  };
+  return users[0];
 };
 
 /**
@@ -118,7 +104,7 @@ const create = async (userInfo) => {
     )
     VALUES ($1, $2, $3, $4, $5, $6, $7)
     ON CONFLICT DO NOTHING
-    RETURNING id, first_name, last_name, email, company_id, role_id, department_id`,
+    RETURNING *`,
     [
       firstName,
       lastName,
@@ -133,6 +119,8 @@ const create = async (userInfo) => {
   if (newUser.length === 0) {
     throw new DuplicationError();
   }
+
+  delete newUser[0].password
   return newUser[0];
 };
 
@@ -159,10 +147,11 @@ const update = async (userInfo) => {
           role_id = COALESCE($3, role_id), 
           status = COALESCE($4, status)
       WHERE id = $5
-      RETURNING id, first_name, last_name, email, company_id, role_id, department_id`,
+      RETURNING *`,
     [hashedPassword, departmentId, roleId, status, id]
   );
 
+  delete updatedUser[0].password
   return updatedUser[0];
 };
 
@@ -172,11 +161,11 @@ const update = async (userInfo) => {
  * @returns object || undefined
  */
 const updateSelf = async (userInfo) => {
-  const { id, firstName, lastName, password } = userInfo;
+  const { id, firstName, lastName, newPassword } = userInfo;
 
   let hashedPassword;
   // use the default salt as 10
-  if (password) hashedPassword = bcrypt.hashSync(password);
+  if (newPassword) hashedPassword = bcrypt.hashSync(newPassword);
 
   const user = await db.query(
     `
@@ -186,16 +175,18 @@ const updateSelf = async (userInfo) => {
           last_name = COALESCE($2, last_name), 
           password = COALESCE($3, password)
       WHERE id = $4
-      RETURNING id, first_name, last_name, email, company_id, role_id, department_id`,
+      RETURNING *`,
     [firstName, lastName, hashedPassword, id]
   );
 
+  delete user[0].password
   return user[0];
 };
 
 module.exports = {
   list,
   getById,
+  getByEmail,
   create,
   updateSelf,
   update,

@@ -37,7 +37,7 @@ router.put("/users/update/:id", async (req, res, next) => {
     if (bodyError) throw new ValidationError(bodyError.details[0].message);
 
     // the user's email can't be changed since it is the identifier, and admin can't change user's first name or last name
-    // admin is able to change a user's role and department and reset a user's password
+    // admin can change a user's role and department and reset a user's password
     const adminCompanyId = await getCompanyIdByUserId(req.session.user.id);
     const userCompanyId = await getCompanyIdByUserId(req.params.id);
 
@@ -54,7 +54,7 @@ router.put("/users/update/:id", async (req, res, next) => {
 router.post("/departments", async (req, res, next) => {
   try {
     const { error } = newDepartmentSchema.validate(req.body);
-    if (error) throw new ValidationError(error.details[0].message);
+    if (error) throw new ValidationError();
 
     const adminCompanyId = await getCompanyIdByUserId(req.session.user.id);
 

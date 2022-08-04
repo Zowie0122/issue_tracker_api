@@ -40,12 +40,14 @@ const updateUserSchema = Joi.object({
   password: getPasswordValidation(),
   roleId: getIntValidation(),
   departmentId: getIntValidation(),
+  status: Joi.number().valid(0, 1)
 });
 
 const updateSelfSchema = Joi.object({
   firstName: getStrValidation(),
   lastName: getStrValidation(),
-  password: getPasswordValidation(),
+  currentPassword: getPasswordValidation(),
+  newPassword: getPasswordValidation(),
 });
 
 module.exports = {

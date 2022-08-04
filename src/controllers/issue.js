@@ -76,7 +76,6 @@ const create = async (issueInfo) => {
 const update = async (issueInfo) => {
   const { id, title, description, issuer, receiver, dueAt, status } = issueInfo;
 
-  // TODO: switch to database trigger to auto generate the updatedAt instead of hard coding
   const updatedIssue = await db.query(
     `
     UPDATE issues

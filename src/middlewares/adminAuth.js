@@ -1,6 +1,6 @@
-const { UnauthorizedError, ValidationError } = require("../utils/errors");
 const db = require("../../db");
 const { USER_STATUS, PERMISSIONS } = require("../utils/constants");
+const { UnauthorizedError, ValidationError } = require("../utils/errors");
 
 const adminAuth = async (req, res, next) => {
   try {

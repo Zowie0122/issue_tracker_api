@@ -1,15 +1,13 @@
 const { Router } = require("express");
-const { BadRequestGenericError, ValidationError } = require("../utils/errors");
+const { ValidationError, ForbiddenError } = require("../utils/errors");
 const { getCompanyIdByUserId } = require("../controllers/company");
 const {
   newIssueSchema,
   updateIssueSchema,
   issueIdSchema,
 } = require("../requests/issueSchema");
-
-const router = Router();
-
 const { list, create, update } = require("../controllers/issue");
+const router = Router();
 
 // get issue by queries
 router.get("/", async (req, res, next) => {
@@ -31,10 +29,17 @@ router.get("/", async (req, res, next) => {
 // user add an new issue
 router.post("/", async (req, res, next) => {
   try {
-    const { error } = newIssueSchema.validate(req.body);
-    if (error) throw new ValidationError(error.details[0].message);
+    const bodyError = newIssueSchema.validate(req.body).error;
+    if (bodyError) throw new ValidationError(bodyError.details[0].message);
 
     const issuer = req.session.user.id;
+
+    const issuerCompanyId = await getCompanyIdByUserId(issuer);
+    const receiverCompanyId = await getCompanyIdByUserId(req.body.receiver);
+    if (issuerCompanyId !== receiverCompanyId) {
+      throw new ForbiddenError()
+    }
+
     res.status(200).json(await create({ ...req.body, issuer }));
   } catch (e) {
     next(e);

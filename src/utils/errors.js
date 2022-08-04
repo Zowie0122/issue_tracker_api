@@ -38,7 +38,7 @@ class NotFoundError extends Error {
 class ValidationError extends Error {
   constructor(message) {
     super(message);
-    this.msg = "Validation Error";
+    this.msg = "Validation Failed";
     this.status = 400;
     this.code = 1004;
   }
@@ -56,7 +56,7 @@ class LogoutError extends Error {
 class DuplicationError extends Error {
   constructor(message) {
     super(message);
-    this.msg = "Duplicated Content Error";
+    this.msg = "Duplicated Content";
     this.status = 400;
     this.code = 1006;
   }

@@ -1,8 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 
-require("dotenv").config();
-
 // routes
 const login = require("./src/routes/login");
 const logout = require("./src/routes/logout");
@@ -20,6 +18,8 @@ const errorHandler = require("./src/middlewares/errorHandler");
 
 const { NotFoundError } = require("./src/utils/errors");
 
+require("dotenv").config();
+
 const PORT = process.env.API_INTERNAL_HTTP_PORT;
 
 const app = express();
@@ -28,24 +28,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: process.env.CLIENT_EXPOSED_HTTP_PORT,
+    origin: `http://localhost:3000`, // This is the frontend exposed url
     credentials: true,
   })
 );
 
 app.use(sessionHandler);
 
-app.get("/api/healthcheck", (req, res, next) => {
+app.get("/", (req, res, next) => {
   res.status(200).json({ msg: "Welcome to Issue tracker API!" });
 });
 
-app.use("/api/login", [], login);
-app.use("/api/logout", [userAuth], logout);
-app.use("/api/users", [userAuth], user);
-app.use("/api/issues", [userAuth], issue);
-app.use("/api/comments", [userAuth], comment);
-app.use("/api/departments", [userAuth], department);
-app.use("/api/admins", [adminAuth], admin);
+app.use("/login", [], login);
+app.use("/logout", [userAuth], logout);
+app.use("/users", [userAuth], user);
+app.use("/issues", [userAuth], issue);
+app.use("/comments", [userAuth], comment);
+app.use("/departments", [userAuth], department);
+app.use("/admins", [adminAuth], admin);
 
 // For the requests that no routes matched
 app.all("*", (req, res, next) => {
