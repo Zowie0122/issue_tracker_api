@@ -8,7 +8,7 @@ router.get("/", async (req, res, next) => {
     if (req.session) {
       req.session.destroy((err) => {
         if (err) throw new LogoutError();
-        res.status(200).json({ msg: "Logout successfully" });
+        return res.status(200).redirect("/login");
       });
     }
   } catch (e) {

@@ -12,7 +12,7 @@ router.get("/", async (req, res, next) => {
   try {
     // if a user retrives the info of him/her self
     if (Boolean(req.query.self)) {
-      res.status(200).json(await getById(req.session.user.id));
+      return res.status(200).json(await getById(req.session.user.id));
     }
 
     const currentUserCompanyId = await getCompanyIdByUserId(
@@ -30,9 +30,9 @@ router.get("/", async (req, res, next) => {
         throw new UnauthorizedError();
       }
 
-      res.status(200).json(targetUser);
+      return res.status(200).json(targetUser);
     }
-    res.status(200).json(await list(currentUserCompanyId));
+    return res.status(200).json(await list(currentUserCompanyId));
   } catch (e) {
     next(e);
   }

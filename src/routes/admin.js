@@ -15,20 +15,20 @@ const router = Router();
 // An admin can only update the user belongs to his/her company
 
 // admin add a new user
-router.post("/users/add", async (req, res, next) => {
+router.post("/users", async (req, res, next) => {
   try {
     const { error } = newUserSchema.validate(req.params.id);
     if (error) throw new ValidationError(error.details[0].message);
 
     const companyId = await getCompanyIdByUserId(req.session.user.id);
-    res.status(200).json(await create({ ...req.body, companyId }));
+    return res.status(200).json(await create({ ...req.body, companyId }));
   } catch (e) {
     next(e);
   }
 });
 
 // admin update a user
-router.put("/users/update/:id", async (req, res, next) => {
+router.put("/users/:id", async (req, res, next) => {
   try {
     const paramsError = uuidSchema.validate(req.params.id).error;
     if (paramsError) throw new ValidationError(paramsError.details[0].message);
@@ -44,7 +44,7 @@ router.put("/users/update/:id", async (req, res, next) => {
     if (adminCompanyId !== userCompanyId) {
       throw new UnauthorizedError();
     }
-    res.status(200).json(await update({ ...req.body, id: req.params.id }));
+    return res.status(200).json(await update({ ...req.body, id: req.params.id }));
   } catch (e) {
     next(e);
   }

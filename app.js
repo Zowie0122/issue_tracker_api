@@ -36,7 +36,7 @@ app.use(
 app.use(sessionHandler);
 
 app.get("/", (req, res, next) => {
-  res.status(200).json({ msg: "Welcome to Issue tracker API!" });
+  return res.status(200).json({ msg: "Welcome to Issue tracker API!" });
 });
 
 app.use("/login", [], login);

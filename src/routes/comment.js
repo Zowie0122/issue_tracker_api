@@ -10,7 +10,7 @@ router.post("/", async (req, res, next) => {
     if (error) throw new ValidationError(error.details[0].message);
 
     const issuer = req.session.user.id;
-    res.status(200).json(await create({ ...req.body, issuer }));
+    return res.status(200).json(await create({ ...req.body, issuer }));
   } catch (e) {
     next(e);
   }

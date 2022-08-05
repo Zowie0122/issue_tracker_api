@@ -13,7 +13,7 @@ const router = Router();
 router.get("/", async (req, res, next) => {
   try {
     const companyId = await getCompanyIdByUserId(req.session.user.id);
-    res.status(200).json(
+    return res.status(200).json(
       await list({
         ...req.query,
         companyId,
@@ -40,7 +40,7 @@ router.post("/", async (req, res, next) => {
       throw new ForbiddenError()
     }
 
-    res.status(200).json(await create({ ...req.body, issuer }));
+    return res.status(200).json(await create({ ...req.body, issuer }));
   } catch (e) {
     next(e);
   }
@@ -55,7 +55,7 @@ router.put("/:id", async (req, res, next) => {
     const bodyError = updateIssueSchema.validate(req.body).error;
     if (bodyError) throw new ValidationError(bodyError.details[0].message);
 
-    res.status(200).json(
+    return res.status(200).json(
       await update({
         ...req.body,
         id: req.params.id,

@@ -7,7 +7,7 @@ const router = Router();
 router.get("/", async (req, res, next) => {
   try {
     const companyId = await getCompanyIdByUserId(req.session.user.id);
-    res.status(200).json(await list(companyId));
+    return res.status(200).json(await list(companyId));
   } catch (e) {
     next(e);
   }
