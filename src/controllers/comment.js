@@ -8,11 +8,19 @@ const db = require("../../db");
 const list = async (issueId) => {
   const comments = await db.query(
     `
-   SELECT *
-   FROM comments
-   WHERE issue_id = $1
-   ORDER BY created_at DESC
-  `,
+    WITH cte AS (
+        SELECT *
+        FROM comments
+        WHERE issue_id = $1
+        ORDER BY created_at DESC
+    )
+    SELECT
+    c.*,
+    CONCAT (u.first_name, ' ', u.last_name)   AS "issuer_name"
+    FROM cte c
+    LEFT JOIN users u ON c.issuer = u.id
+    `
+    ,
     [issueId]
   );
 
