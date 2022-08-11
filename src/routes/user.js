@@ -51,12 +51,15 @@ router.put("/:id", async (req, res, next) => {
     const bodyError = updateSelfSchema.validate(req.body).error;
     if (bodyError) throw new ValidationError(bodyError.details[0].message);
 
-    // check if the user gives the right current password
-    const { password } = await getById(req.session.user.id, false)
+    const { currentPassword, newPassword } = req.body
+    if (newPassword) {
+      // check if the user gives the right current password
+      const { password } = await getById(req.session.user.id, false)
 
-    const matched = bcrypt.compareSync(req.body.currentPassword, password);
-    if (!matched) {
-      throw new ForbiddenError();
+      const matched = bcrypt.compareSync(currentPassword, password);
+      if (!matched) {
+        throw new ForbiddenError();
+      }
     }
 
     res

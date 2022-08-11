@@ -17,8 +17,8 @@ const router = Router();
 // admin add a new user
 router.post("/users", async (req, res, next) => {
   try {
-    const { error } = newUserSchema.validate(req.params.id);
-    if (error) throw new ValidationError(error.details[0].message);
+    const bodyError = newUserSchema.validate(req.body).error;
+    if (bodyError) throw new ValidationError(bodyError.details[0].message);
 
     const companyId = await getCompanyIdByUserId(req.session.user.id);
     return res.status(200).json(await create({ ...req.body, companyId }));
