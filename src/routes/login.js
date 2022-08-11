@@ -35,7 +35,7 @@ router.post("/", async (req, res, next) => {
       email,
     };
 
-    return res.status(200).redirect('/issues/received');
+    return res.status(200).json({});
   } catch (e) {
     next(e);
   }
