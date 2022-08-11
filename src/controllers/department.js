@@ -15,6 +15,8 @@ const list = async (companyId) => {
     [companyId]
   );
 
+  departments.forEach(department => department.id = Number(department.id))
+
   return departments;
 };
 
