@@ -35,7 +35,10 @@ router.post("/", async (req, res, next) => {
       email,
     };
 
-    return res.status(200).json({});
+    req.session.save(function (err) {
+      if (err) return next(err)
+      return res.status(200).json({});
+    })
   } catch (e) {
     next(e);
   }

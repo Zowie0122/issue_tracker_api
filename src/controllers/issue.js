@@ -42,8 +42,10 @@ const list = async (queries) => {
     [id, issuer, receiver, companyId, limit, (page - 1) * limit]
   );
 
-  for (const issue of issues) {
-    issue.comments = await comment.list(issue.id)
+  if (id) {
+    for (const issue of issues) {
+      issue.comments = await comment.list(issue.id)
+    }
   }
 
   // Node-postgres driver interpret 64-bit as string

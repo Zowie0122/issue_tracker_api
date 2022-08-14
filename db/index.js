@@ -14,6 +14,7 @@ const DB_CONFIG = {
 const pool = new Pool(DB_CONFIG);
 
 module.exports = {
+  pool: pool,
   query: (text, params) => {
     return pool
       .query(text, params)

@@ -62,7 +62,7 @@ router.put("/:id", async (req, res, next) => {
       }
     }
 
-    res
+    return res
       .status(200)
       .json(await updateSelf({ ...req.body, id: req.session.user.id }));
   } catch (e) {
