@@ -1,6 +1,3 @@
-include .env
-export $(shell sed 's/=.*//' .env)
-
 # Start the container, keep stdout attached
 start:
 	docker-compose up --abort-on-container-exit
@@ -16,6 +13,10 @@ restart:
 # Start the container, detach stdout
 up: # create-network
 	docker-compose up -d
+
+# Remove database volumes
+remove-volumes:
+	docker rm -f -v issue_tracker_psql
 
 # Rebuild and run the container, detach stdout
 rebuild: # create-network
@@ -33,8 +34,3 @@ ash-app:
 
 bash-postgres:
 	docker exec -it issue_tracker_psql psql -U istr issue_tracker
-
-# Remove database volumes
-remove-volumes:
-	docker rm -f -v issue_tracker_psql
-
