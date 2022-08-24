@@ -1,9 +1,13 @@
 const { Router } = require("express");
 const bcrypt = require("bcryptjs");
-const { getByEmail } = require("../controllers/user")
+const { getByEmail } = require("../controllers/user");
 const { USER_STATUS } = require("../utils/constants");
 const loginSchema = require("../requests/loginSchema");
-const { ValidationError, UnauthorizedError, ForbiddenError } = require("../utils/errors");
+const {
+  ValidationError,
+  UnauthorizedError,
+  ForbiddenError,
+} = require("../utils/errors");
 
 const router = Router();
 
@@ -14,12 +18,7 @@ router.post("/", async (req, res, next) => {
 
     const user = await getByEmail(req.body.email);
 
-    const {
-      id,
-      email,
-      password,
-      status,
-    } = user;
+    const { id, email, password, status } = user;
 
     if (status !== USER_STATUS.active) {
       throw new ForbiddenError();
@@ -36,9 +35,9 @@ router.post("/", async (req, res, next) => {
     };
 
     req.session.save(function (err) {
-      if (err) return next(err)
-      return res.status(200).json({});
-    })
+      if (err) return next(err);
+      return res.status(200).json(req.session.user);
+    });
   } catch (e) {
     next(e);
   }

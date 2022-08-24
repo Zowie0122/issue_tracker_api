@@ -35,7 +35,7 @@ app.use(
 
 app.use(sessionHandler);
 
-app.get("/", (req, res, next) => {
+app.get("/healthcheck", (req, res, next) => {
   return res.status(200).json({ msg: "Welcome to Issue tracker API!" });
 });
 
