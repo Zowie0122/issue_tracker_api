@@ -1,6 +1,7 @@
 # Issue Tracker API
 
 An issue tracker app that employees within a company can post and receive issues from each other.
+Admin account can add department, add user and update user's settings.
 This API is paired with Issue Tracker Frontend.
 
 ## Main Features
