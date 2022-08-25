@@ -1,5 +1,5 @@
 const Joi = require("joi");
-const { PW_REGEX } = require("../utils/constants");
+const { EM_REGEX, PW_REGEX } = require("../utils/constants");
 
 const uuidSchema = Joi.string()
   .guid({
@@ -14,8 +14,8 @@ const getEmailValidation = () =>
   Joi.string()
     .email({
       minDomainSegments: 2,
-      tlds: { allow: ["com", "net", "jp"] },
     })
+    .pattern(EM_REGEX)
     .required();
 
 const getPasswordValidation = (required = false) =>
@@ -40,7 +40,7 @@ const updateUserSchema = Joi.object({
   password: getPasswordValidation(),
   roleId: getIntValidation(),
   departmentId: getIntValidation(),
-  status: Joi.number().valid(0, 1)
+  status: Joi.number().valid(0, 1),
 });
 
 const updateSelfSchema = Joi.object({
